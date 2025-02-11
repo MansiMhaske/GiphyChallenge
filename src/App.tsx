@@ -21,7 +21,7 @@ function App() {
   const fetchTrendingGifs = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${TRENDING_URL}${offset}`);
+      const response = await fetch(`${TRENDING_URL}${offset}&_=${new Date().getTime()}`);
       const data = await response.json();
       setGifs((prevGifs: any) => {
         const uniqueGifs = [...new Map([...prevGifs, ...data.data].map(gif => [gif.id, gif])).values()];
@@ -68,7 +68,7 @@ function App() {
       {loading && <p>Loading...</p>}
       <div className="gif-container">
         {gifs.map((gif: any) => (
-          <img key={gif.id} src={gif.images.fixed_height.url} alt={gif.title} />
+          <img key={gif.id} src={gif.images.fixed_height_downsampled.url} alt={gif.title} />
         ))}
       </div>
       {!loading && !isSearching && <button onClick={loadMore}>Load More</button>}
